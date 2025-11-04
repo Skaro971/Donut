@@ -18,15 +18,9 @@ int main(int argc, char** argv)
 {
     ConfigConsole();
 
-    //std::cout << "Hello World!\n";
-
-    //printf(CLEAR_CONSOLE);
-
-    //std::cout << "Hello World!\n";
-
+    printf(CLEAR_CONSOLE);
+    std::cout << "Hello World!\n";
     printf(HIDE_CURSOR);
-
-
 
     return 0;
 }
