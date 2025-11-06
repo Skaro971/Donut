@@ -2,6 +2,7 @@
 #include <windows.h>
 
 #include "Settings.h"
+#include "Screen.h"
 
 #define CLEAR_CONSOLE "\033c"
 #define RESET_CUROR "\033[H"
@@ -16,28 +17,13 @@ void ConfigConsole()
     SetConsoleMode(hConsole, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 }
 
-void DisplayGrid(int width, int height)
-{
-    for (int h = 0; h < height; ++h)
-    {
-        for (int w = 0; w < width; ++w)
-        {
-            std::cout << ".";
-        }
-        std::cout << std::endl;
-    }
-}
-
 int main(int argc, char** argv)
 {
     ConfigConsole();
     Settings Settings(argc, argv);
+    Screen Screen(Settings.GetWidth(), Settings.GetHeight());
 
-    //printf(CLEAR_CONSOLE);
-    //std::cout << "Hello World!\n";
-    //printf(HIDE_CURSOR);
-
-    DisplayGrid(Settings.GetWidth(), Settings.GetHeight());
+    Screen.DisplayGrid();
 
     return 0;
 }
