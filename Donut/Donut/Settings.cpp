@@ -4,9 +4,13 @@
 #include <stdlib.h>
 
 Settings::Settings(int argc, char** argv)
+	: mWidth(100)
+	, mHeight(20)
+	, mResolution(10)
 {
 	mWidth = 0;
 	mHeight = 0;
+	mResolution = 0;
 
 	for (int i = 0; i < argc; ++i)
 	{
@@ -20,6 +24,11 @@ Settings::Settings(int argc, char** argv)
 			mHeight = atoi(argv[i + 1]);
 			++i;
 		}
+		else if (strcmp(argv[i], "-r") == 0)
+		{
+			mResolution = atoi(argv[i + 1]);
+			++i;
+		}
 	}
 }
 
@@ -31,4 +40,9 @@ int Settings::GetWidth()
 int Settings::GetHeight()
 {
 	return mHeight;
+}
+
+int Settings::GetResolution()
+{
+	return mResolution;
 }
