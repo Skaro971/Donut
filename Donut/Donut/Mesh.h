@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 
+#define PI 3.14159265359
+
 class Mesh
 {
 public:
@@ -27,6 +29,7 @@ public:
 	//Display Vertices coord
 	void Debug();
 
+	void GenerateSector(float radius, float angle);
 	void GenerateCircle(float radius);
 	void GenerateHalfCircle(float radius);
 	void GenerateRectangle(float width, float height);

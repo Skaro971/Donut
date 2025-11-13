@@ -2,6 +2,7 @@
 
 #include <cstring>
 #include <stdlib.h>
+#include <iostream>
 
 Settings::Settings(int argc, char** argv)
 	: mWidth(100)
@@ -14,7 +15,12 @@ Settings::Settings(int argc, char** argv)
 
 	for (int i = 0; i < argc; ++i)
 	{
-		if (strcmp(argv[i], "-w") == 0)
+		if (strcmp(argv[i], "-h") == 0)
+		{
+			Helper();
+			++i;
+		}
+		else if (strcmp(argv[i], "-w") == 0)
 		{
 			mWidth = atoi(argv[i + 1]);
 			++i;
@@ -32,6 +38,17 @@ Settings::Settings(int argc, char** argv)
 	}
 }
 
+void Settings::Helper()
+{
+	std::cout
+		<< "+-----------------------------------------+"
+		<< "| "
+		<< "| -w int [Width]"
+		<< "| -h int [Height]"
+		<< "| -r int [Resolution]"
+		<< std::endl;
+}
+
 int Settings::GetWidth()
 {
 	return mWidth;
@@ -46,3 +63,4 @@ int Settings::GetResolution()
 {
 	return mResolution;
 }
+

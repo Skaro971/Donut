@@ -1,11 +1,13 @@
 #ifndef SETTINGS_H__
 #define SETTINGS_H__
 
-class Settings
+class Settings // TODO : Do Static
 {
 private:
 	int mWidth, mHeight;
 	int mResolution;
+
+	void Helper();
 
 public:
 	Settings(int argc, char** argv);
