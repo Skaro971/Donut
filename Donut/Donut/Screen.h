@@ -1,6 +1,8 @@
 #ifndef SCREEN_H__
 #define SCREEN_H__
 
+#include "Mesh.h"
+
 class Screen
 {
 private:
@@ -15,6 +17,7 @@ public:
 	void SetHeight(int height);
 
 	void DisplayGrid();
+	void DisplayMesh(const Mesh& mesh);
 };
 
 #endif // !SCREEN_H__

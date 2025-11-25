@@ -28,3 +28,11 @@ void Screen::DisplayGrid()
         std::cout << std::endl;
     }
 }
+
+void Screen::DisplayMesh(const Mesh& mesh)
+{
+    for (Mesh::Vertex vertex : mesh.mVertices)
+    {
+        
+    }
+}
