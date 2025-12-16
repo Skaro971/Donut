@@ -1,66 +1,82 @@
 #include "Settings.h"
-
-#include <cstring>
-#include <stdlib.h>
-#include <iostream>
+#include <string>
 
 Settings::Settings(int argc, char** argv)
-	: mWidth(100)
-	, mHeight(20)
-	, mResolution(10)
+: m_screenWidth(100)
+, m_screenHeight(20)
+, m_screenBackground(' ')
+, m_screenMeshProjection('X')
+, m_screenPosition(30.f)
+, m_meshResolution(128)
+, m_meshPosition(10.f)
+, m_meshRotationXPerFrame(0.02f)
+, m_meshRotationYPerFrame(0.04f)
+, m_meshRotationZPerFrame(0.0f)
+, m_frameDuration(100000)
 {
-	mWidth = 0;
-	mHeight = 0;
-	mResolution = 0;
-
-	for (int i = 0; i < argc; ++i)
-	{
-		if (strcmp(argv[i], "-h") == 0)
-		{
-			Helper();
-			++i;
-		}
-		else if (strcmp(argv[i], "-w") == 0)
-		{
-			mWidth = atoi(argv[i + 1]);
-			++i;
-		}
-		else if (strcmp(argv[i], "-h") == 0)
-		{
-			mHeight = atoi(argv[i + 1]);
-			++i;
-		}
-		else if (strcmp(argv[i], "-r") == 0)
-		{
-			mResolution = atoi(argv[i + 1]);
-			++i;
-		}
-	}
+    _ParseArguments(argc, argv);
 }
 
-void Settings::Helper()
+void Settings::_ParseArguments(int argc, char** argv)
 {
-	std::cout
-		<< "+-----------------------------------------+"
-		<< "| "
-		<< "| -w int [Width]"
-		<< "| -h int [Height]"
-		<< "| -r int [Resolution]"
-		<< std::endl;
+    // Elegant solution from @T.Rosselet
+    for (int i = 1; i < argc; i++) //i starts at 1 because command line arguments start with argv[1] (argv[0] is the name of the exe)
+    {
+        std::string arg = argv[i];
+        if (arg == "-w" && i + 1 < argc)
+        {
+            m_screenWidth = std::atoi(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-h" && i + 1 < argc)
+        {
+            m_screenHeight = std::atoi(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-b" && i + 1 < argc)
+        {
+            m_screenBackground = argv[i+1][0];
+            i++;
+        }
+        else if (arg == "-p" && i + 1 < argc)
+        {
+            m_screenMeshProjection = argv[i+1][0];
+            i++;
+        }
+        else if (arg == "-s" && i + 1 < argc)
+        {
+            m_screenPosition = std::atof(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-r" && i + 1 < argc)
+        {
+            m_meshResolution = std::atoi(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-m" && i + 1 < argc)
+        {
+            m_meshPosition = std::atof(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-x" && i + 1 < argc)
+        {
+            m_meshRotationXPerFrame = std::atof(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-y" && i + 1 < argc)
+        {
+            m_meshRotationYPerFrame = std::atof(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-z" && i + 1 < argc)
+        {
+            m_meshRotationZPerFrame = std::atof(argv[i+1]);
+            i++;
+        }
+        else if (arg == "-f" && i + 1 < argc)
+        {
+            m_frameDuration = std::atoi(argv[i+1]);
+            i++;
+        }
+    }
 }
-
-int Settings::GetWidth()
-{
-	return mWidth;
-}
-
-int Settings::GetHeight()
-{
-	return mHeight;
-}
-
-int Settings::GetResolution()
-{
-	return mResolution;
-}
-

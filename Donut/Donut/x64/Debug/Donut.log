@@ -1,3 +1,11 @@
-﻿  main.cpp
-  LINK : C:\Users\wgiron\Documents\GitHub\Donut\Donut\x64\Debug\Donut.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
+﻿  Mesh.cpp
+C:\Users\wgiron\Documents\GitHub\Donut\Donut\Donut\Mesh.cpp(40,31): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\wgiron\Documents\GitHub\Donut\Donut\Donut\Mesh.cpp(45,29): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\wgiron\Documents\GitHub\Donut\Donut\Donut\Mesh.cpp(72,22): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+C:\Users\wgiron\Documents\GitHub\Donut\Donut\Donut\Mesh.cpp(75,26): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  Screen.cpp
+C:\Users\wgiron\Documents\GitHub\Donut\Donut\Donut\Screen.cpp(45,15): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+C:\Users\wgiron\Documents\GitHub\Donut\Donut\Donut\Screen.cpp(46,15): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+  main.cpp
+  Génération de code en cours...
   Donut.vcxproj -> C:\Users\wgiron\Documents\GitHub\Donut\Donut\x64\Debug\Donut.exe

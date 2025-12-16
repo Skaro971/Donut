@@ -1,85 +1,115 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "Mesh.h"
+#include "Settings.h"
 
-Mesh::Vertex::Vertex(float _x, float _y, float _z)
+void Vertex::Rotate(float angle, Axis axis)
 {
-	x = _x;
-	y = _y;
-	z = _z;
+    Vertex previous = *this;
+    switch(axis)
+    {
+        case Axis::X:
+        {
+            y = previous.y * std::cos(angle) - previous.z * std::sin(angle);
+            z = previous.y * std::sin(angle) + previous.z * std::cos(angle);
+        }
+        break;
+        case Axis::Y:
+        {
+            x = previous.z * std::sin(angle) + previous.x * std::cos(angle);
+            z = previous.z * std::cos(angle) - previous.x * std::sin(angle);
+        }
+        break;
+        case Axis::Z:
+        {
+            x = previous.x * std::cos(angle) - previous.y * std::sin(angle);
+            y = previous.x * std::sin(angle) + previous.y * std::cos(angle);
+        }
+        break;
+    }
 }
 
-Mesh::Mesh(int resolution)
+Mesh::Mesh(Settings const& settings)
+: m_resolution(settings.GetMeshResolution())
 {
-	mResolution = resolution;
-	mVertices = {};
-}
-
-void Mesh::AddVertex(float x, float y, float z)
-{
-	mVertices.push_back(Vertex(x, y, z));
-}
-
-void Mesh::AddVertex(const Vertex& vertex)
-{
-	mVertices.push_back(vertex);
-}
-
-void Mesh::Debug()
-{
-	if (mVertices.size() == 0) return;
-
-	std::cout << "\n-----Vertices List-----\n" << std::endl;
-	for (int i = 0; i < mVertices.size(); ++i)
-	{
-		std::cout << "[" << i << "] : x = "
-			<< mVertices[i].x << ", y = "
-			<< mVertices[i].y << ", z = "
-			<< mVertices[i].z << ";\n";
-	}
-	std::cout << std::endl;
-}
-
-void Mesh::GenerateSector(float radius, float angle)
-{
-	mVertices.resize(mResolution * mResolution);
-	for (int i = 0; i < mResolution; ++i)
-	{
-		float r = (radius * i) / (mResolution - 1);
-		for (int j = 0; j < mResolution; ++j)
-		{
-			float theta = (angle * j) / (mResolution - 1);
-			mVertices[mResolution * i + j].x = r * std::cos(theta);
-			mVertices[mResolution * i + j].y = r * std::sin(theta);
-			mVertices[mResolution * i + j].z = 0.f;
-		}
-	}
 }
 
 void Mesh::GenerateCircle(float radius)
 {
-	GenerateSector(radius, 2 * PI);
+    _GenerateSector(radius, 2 * M_PI);
 }
 
 void Mesh::GenerateHalfCircle(float radius)
 {
-	GenerateSector(radius, PI);
+    _GenerateSector(radius, M_PI);
 }
 
 void Mesh::GenerateRectangle(float width, float height)
 {
-	mVertices.resize(mResolution * mResolution);
-	for (int i = 0; i < mResolution; ++i)
-	{
-		for (int j = 0; j < mResolution; ++j)
-		{
-			mVertices[mResolution * i + j].x = (1.f * i / (mResolution - 1) - 0.5f) * width;
-			mVertices[mResolution * i + j].y = (1.f * i / (mResolution - 1) - 0.5f) * height;
-			mVertices[mResolution * i + j].z = 0.f;
-		}
-	}
+    m_vertices.resize(m_resolution * m_resolution);
+    for(int i = 0; i < m_resolution; i++)
+    {
+        for(int j = 0; j < m_resolution; j++)
+        {
+            m_vertices[m_resolution * i + j].x = (1.f*i / (m_resolution - 1) - 0.5f) * width;
+            m_vertices[m_resolution * i + j].y = (1.f*j / (m_resolution - 1) - 0.5f) * height;
+            m_vertices[m_resolution * i + j].z = 0.f;
+        }
+    }
 }
 
-void Mesh::GenerateSquare(float size)
+void Mesh::GenerateSquare(float side)
 {
-	GenerateRectangle(size, size);
+    GenerateRectangle(side, side);
 }
 
+void Mesh::GenerateTorus(float majorRadius, float minorRadius)
+{
+    m_vertices.resize(m_resolution * m_resolution);
+    for(int i = 0; i < m_resolution; i++)
+    {
+        float angleY = (2 * M_PI * i) / (m_resolution - 1);
+        for(int j = 0; j < m_resolution; j++)
+        {
+            float angleZ = (2 * M_PI * j) / (m_resolution - 1);
+            m_vertices[m_resolution * i + j].x = majorRadius + minorRadius * std::cos(angleZ);
+            m_vertices[m_resolution * i + j].y = minorRadius * std::sin(angleZ);
+            m_vertices[m_resolution * i + j].Rotate(angleY, Axis::Y);
+        }
+    }
+}
+
+void Mesh::Rotate(float angle, Axis axis)
+{
+    for(Vertex& vertex : m_vertices)
+    {
+        vertex.Rotate(angle, axis);
+    }
+}
+
+void Mesh::Debug() const
+{
+    for(Vertex const& vertex : m_vertices)
+    {
+        vertex.Debug();
+    }
+}
+
+void Mesh::_GenerateSector(float radius, float angle)
+{
+    m_vertices.resize(m_resolution * m_resolution);
+    for(int i = 0; i < m_resolution; i++)
+    {
+        float r = (radius * i) / (m_resolution - 1);
+        for(int j = 0; j < m_resolution; j++)
+        {
+            float theta = (angle * j) / (m_resolution - 1);
+            m_vertices[m_resolution * i + j].x = r * std::cos(theta);
+            m_vertices[m_resolution * i + j].y = r * std::sin(theta);
+            m_vertices[m_resolution * i + j].z = 0.f;
+            m_vertices[m_resolution * i + j].nx = 0.f;
+            m_vertices[m_resolution * i + j].ny = 0.f;
+            m_vertices[m_resolution * i + j].nz = 0.f;
+        }
+    }
+}

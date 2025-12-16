@@ -1,41 +1,46 @@
-#ifndef MESH_H__
-#define MESH_H__
-
-#include <iostream>
+#pragma once
+#include <cstdio>
 #include <vector>
 
-#define PI 3.14159265359
+class Settings;
+
+enum class Axis
+{
+    X,
+    Y,
+    Z
+};
+
+struct Vertex
+{
+    void Rotate(float angle, Axis axis);
+    void Debug() const { std::printf("[x=%5.2f, y=%5.2f, z=%5.2f]\n", x, y, z); }
+    float x;
+    float y;
+    float z;
+
+    float nx, ny, nz;
+
+
+};
 
 class Mesh
 {
-public:
-	struct Vertex
-	{
-		float x, y, z;
-		Vertex(float _x, float _y, float _z);
-	};
-	std::vector<Vertex> mVertices;
-	int mResolution;
+    public:
+    Mesh(Settings const& settings);
+    std::vector<Vertex> const& GetVertices() const { return m_vertices; }
+    void GenerateCircle(float radius);
+    void GenerateHalfCircle(float radius);
+    void GenerateRectangle(float width, float height);
+    void GenerateSquare(float side);
+    void GenerateTorus(float majorRadius, float minorRadius);
+    void Rotate(float angle, Axis axis);
+    void Debug() const;
 
-	Mesh(int resolution);
-	~Mesh() = default;
+    private:
+    void _GenerateSector(float radius, float angle);
 
-	void AddVertex(float x, float y, float z);
-	void AddVertex(const Vertex& vertex);
-
-	template<typename... Args>
-	void AddVertex(const Vertex& first, const Args&... rest);
-
-	//Display Vertices coord
-	void Debug();
-
-	void GenerateSector(float radius, float angle);
-	void GenerateCircle(float radius);
-	void GenerateHalfCircle(float radius);
-	void GenerateRectangle(float width, float height);
-	void GenerateSquare(float size);
+    private:
+    std::vector<Vertex> m_vertices;
+    int m_resolution;
 };
-
-#include "Mesh.inl"
-#endif
-

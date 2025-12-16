@@ -1,23 +1,30 @@
-#ifndef SCREEN_H__
-#define SCREEN_H__
+#pragma once
+#include <vector>
 
-#include "Mesh.h"
+class Settings;
+class Mesh;
+struct Vertex;
 
 class Screen
 {
-private:
-	int mWidth, mHeight;
+    public:
+    Screen(Settings const& settings);
+    void Display() const;
+    void Display(Mesh const& mesh);
 
-public:
-	Screen() = default;
-	Screen(int width, int height);
+    private:
+    void _ProjectMesh(Mesh const& mesh);
+    void _ProjectInCenterScreenSpace(Vertex& vertex);
+    void _ProjectInTopLeftScreenSpace(Vertex& vertex);
+    bool _IsVertexInScreen(int u, int v);
 
-	//SETTERS
-	void SetWidth(int width);
-	void SetHeight(int height);
-
-	void DisplayGrid();
-	void DisplayMesh(const Mesh& mesh);
+    private:
+    int m_width;
+    int m_height;
+    float m_zPosition;
+    char m_background;
+    char m_meshProjection;
+    float m_meshZPosition;
+    std::vector<char> m_pixels;
+    std::vector<float> m_oozBuffer;
 };
-
-#endif // !SCREEN_H__
