@@ -7,7 +7,7 @@ struct Vertex;
 
 class Screen
 {
-    public:
+public:
     Screen(Settings const& settings);
     void Display() const;
     void Display(Mesh const& mesh);
@@ -18,7 +18,8 @@ class Screen
     void _ProjectInTopLeftScreenSpace(Vertex& vertex);
     bool _IsVertexInScreen(int u, int v);
 
-    private:
+
+private:
     int m_width;
     int m_height;
     float m_zPosition;

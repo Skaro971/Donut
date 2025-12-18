@@ -12,7 +12,7 @@ Settings::Settings(int argc, char** argv)
 , m_meshRotationXPerFrame(0.02f)
 , m_meshRotationYPerFrame(0.04f)
 , m_meshRotationZPerFrame(0.0f)
-, m_frameDuration(100000)
+, m_frameDuration(0)
 {
     _ParseArguments(argc, argv);
 }

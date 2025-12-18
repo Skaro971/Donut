@@ -45,4 +45,27 @@ public:
 	bool operator!= (const Vector2F other) const;
 };
 
+
+class Vector3F
+{
+public:
+	float x, y, z;
+
+	Vector3F() = default;
+	Vector3F(float _x, float _y, float _z);
+
+	float Magnitude() const;
+	float SqMagnitude() const;
+	Vector3F Normalize() const;
+
+	Vector3F operator+ (const Vector3F other) const;
+	Vector3F operator- (const Vector3F other) const;
+	Vector3F operator* (const Vector3F other) const;
+	Vector3F operator/ (const Vector3F other) const;
+	Vector3F operator* (const float other) const;
+	Vector3F operator/ (const float other) const;
+	bool operator== (const Vector3F other) const;
+	bool operator!= (const Vector3F other) const;
+};
+
 #endif // !MATHS_H__

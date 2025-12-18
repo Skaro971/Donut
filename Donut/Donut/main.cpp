@@ -1,7 +1,7 @@
 #define _USE_MATH_DEFINES
 
 #include <iostream>
-#include <windows.h> // For console settings
+#include <windows.h>
 #include <signal.h> // To intercept kill ctrl+c
 #include <cmath>
 #include "Settings.h"
@@ -18,12 +18,12 @@ void InitConsole()
 
 void SetCursorToHomePosition()
 {
-    std::cout << "\x1b[H"; // Set cursor pos to "home" position (0,0)
+    std::cout << "\x1b[H"; // Set cursor pos (0,0)
 }
 
 void ClearConsole()
 {
-    std::cout << "\x1b[2J"; // Remove all characters in console
+    std::cout << "\x1b[2J";
     SetCursorToHomePosition();
 }
 
@@ -31,11 +31,11 @@ void SetCursorVisible(bool visible)
 {
     if(visible)
     {
-        std::cout << "\x1b[?25h"; // Make cursor visible
+        std::cout << "\x1b[?25h";
     }
     else
     {
-        std::cout << "\x1b[?25l"; // Make cursor invisible
+        std::cout << "\x1b[?25l";
     }
 }
 

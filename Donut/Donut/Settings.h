@@ -1,6 +1,8 @@
 #pragma once
 
-class Settings
+#include "Maths.h"
+
+static class Settings
 {
     public:
     Settings(int argc, char** argv);
@@ -15,6 +17,9 @@ class Settings
     float GetMeshRotationYPerFrame() const { return m_meshRotationYPerFrame; }
     float GetMeshRotationZPerFrame() const { return m_meshRotationZPerFrame; }
     int GetFrameDuration() const { return m_frameDuration; }
+    float GetLightDirectionX() const { return mLightDirection.x; };
+    float GetLightDirectionY() const { return mLightDirection.y; };
+    float GetLightDirectionZ() const { return mLightDirection.z; };
 
     private:
     void _ParseArguments(int argc, char** argv);
@@ -31,4 +36,5 @@ class Settings
     float m_meshRotationYPerFrame;
     float m_meshRotationZPerFrame;
     int m_frameDuration;
+    Vector3F mLightDirection;
 };
